@@ -6,7 +6,7 @@ ENV container docker
 
 # Install updates
 RUN yum install -y http://mirror.pnl.gov/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-RUN yum install -y httpd supervisor
+RUN yum install -y httpd postfix supervisor
 RUN yum update -y
 RUN yum clean all
 
