@@ -6,12 +6,21 @@
 ## Initialise any variables being called:
 # Set the correct timezone
 TZ=${TZ:-UTC}
+PHP_TZ_CONT=`echo $PHP_TZ | awk 'BEGIN { FS="/" } { print $1 }'`
+PHP_TZ_CITY=`echo $PHP_TZ | awk 'BEGIN { FS="/" } { print $2 }'`
 setup=/config/httpd/.setup
 INSTALL_PATH=${INST:-/data/vmb}
 
 ## We always want to set the timezone correctly
 rm -f /etc/localtime
 cp /usr/share/zoneinfo/$TZ /etc/localtime
+
+## Configure the PHP timezone correctly:
+if [ "$PHP_TZ_CITY" = "" ]; then
+  sed -i "s/;date.timezone =/date.timezone = ${PHP_TZ_CONT}/" /etc/php.ini
+else
+  sed -i "s/;date.timezone =/date.timezone = ${PHP_TZ_CONT}\/${PHP_TZ_CITY}/" /etc/php.ini
+fi
 
 ## If this is the first time setting things up, we need to download ViMBAdmin and set up the MariaDB dataabase
 if [ ! -f "${setup}" ]; then
