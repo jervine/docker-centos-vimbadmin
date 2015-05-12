@@ -12,6 +12,7 @@ RUN yum clean all
 
 ADD supervisord.conf /etc/supervisord.conf
 ADD httpd.ini /etc/supervisord.d/httpd.ini
+ADD vimbadmin.conf /etc/httpd/conf.d/vimbadmin.conf
 ADD start.sh /usr/sbin/start.sh
 RUN chmod 755 /usr/sbin/start.sh
 
